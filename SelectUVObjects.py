@@ -17,8 +17,14 @@ class SELECT_UV_OBJECTS_PT_ui(bpy.types.Panel):
         # UVMap選択
         layout.prop(context.scene.uvmap_list, "uvmap", text="UVMap")
 
-        # 実行ボタン
+        # Select実行ボタン
         layout.operator("select_uv_objects.select")
+
+        # UVMapの変更名
+        layout.prop(context.scene, "uvmap_rename", text="NewName")
+
+        # Rename実行ボタン
+        layout.operator("select_uv_objects.rename")
 
     # OBJECTモード時のみ利用可能に
     @classmethod
@@ -28,4 +34,5 @@ class SELECT_UV_OBJECTS_PT_ui(bpy.types.Panel):
 # =================================================================================================
 def register():
     bpy.types.Scene.uvmap_list = bpy.props.PointerProperty(type=UVMapManager.UVMapManagerProperty)
+    bpy.types.Scene.uvmap_rename = bpy.props.StringProperty(name = "UVMap New Name")
 

@@ -9,6 +9,7 @@ class SELECT_UV_OBJECTS_PT_select(bpy.types.Operator):
     # execute
     def execute(self, context):
         scene = context.scene
+        target_uvmap = context.scene.uvmap_list.uvmap
 
         # 一旦全部非選択に
         bpy.ops.object.select_all(action='DESELECT')
@@ -21,12 +22,38 @@ class SELECT_UV_OBJECTS_PT_select(bpy.types.Operator):
             # 同じ名前確認
             has_uv = False
             for uv in obj.data.uv_layers:
-                has_uv = uv.name == context.scene.uvmap_list.uvmap
+                has_uv = uv.name == target_uvmap
                 if has_uv:
                     break
 
             # 選択
             obj.select_set(has_uv)
+
+        return{'FINISHED'}
+
+
+# 同じ名前のUVMapをリネームする
+# =================================================================================================
+class SELECT_UV_OBJECTS_PT_rename(bpy.types.Operator):
+    bl_idname = "select_uv_objects.rename"
+    bl_label = "Rename"
+
+    # execute
+    def execute(self, context):
+        target_uvmap = context.scene.uvmap_list.uvmap
+
+        # 選択されているUVMapと同じ名前のUVMapをRenameする
+        for obj in bpy.data.objects:
+            if obj.type != "MESH":
+                continue
+
+            # 同じ名前確認
+            for uv in obj.data.uv_layers:
+                if uv.name == target_uvmap:
+                    uv.name = context.scene.uvmap_rename
+
+        # 選択対象を変えないように変更後の名前で設定
+        context.scene.uvmap_list.uvmap = context.scene.uvmap_rename
 
         return{'FINISHED'}
 
