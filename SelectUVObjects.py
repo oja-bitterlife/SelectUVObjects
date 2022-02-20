@@ -14,8 +14,8 @@ class SELECT_UV_OBJECTS_PT_ui(bpy.types.Panel):
     def draw(self, context):
         layout = self.layout
 
-        # ATHのArmatureの設定
-        layout.prop(context.scene, "uvmap_name", text="UVMap")
+        # UVMap選択
+        layout.prop(context.scene.uvmap_list, "uvmap", text="UVMap")
 
         # 実行ボタン
         layout.operator("select_uv_objects.select")
@@ -27,5 +27,5 @@ class SELECT_UV_OBJECTS_PT_ui(bpy.types.Panel):
 
 # =================================================================================================
 def register():
-    bpy.types.Scene.uvmap_name = bpy.props.PointerProperty(type=UVMapManager.UVMapManagerProperty)
+    bpy.types.Scene.uvmap_list = bpy.props.PointerProperty(type=UVMapManager.UVMapManagerProperty)
 

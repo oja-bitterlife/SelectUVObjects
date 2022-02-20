@@ -4,11 +4,30 @@ import bpy
 # =================================================================================================
 class SELECT_UV_OBJECTS_PT_select(bpy.types.Operator):
     bl_idname = "select_uv_objects.select"
-    bl_label = "Select Objects with the same UVMap"
+    bl_label = "Select"
 
     # execute
     def execute(self, context):
         scene = context.scene
+
+        # 一旦全部非選択に
+        bpy.ops.object.select_all(action='DESELECT')
+
+        # 選択されているUVMapと同じ名前のUVMapを持つObjectを選択していく
+        for obj in bpy.data.objects:
+            if obj.type != "MESH":
+                continue
+
+            # 同じ名前確認
+            has_uv = False
+            for uv in obj.data.uv_layers:
+                has_uv = uv.name == context.scene.uvmap_list.uvmap
+                if has_uv:
+                    break
+
+            # 選択
+            obj.select_set(has_uv)
+
         return{'FINISHED'}
 
 
@@ -16,8 +35,11 @@ class SELECT_UV_OBJECTS_PT_select(bpy.types.Operator):
 # =================================================================================================
 # UVMapの一覧
 def get_uvmap_list(self, context):
-    uvmap_list = []
-    uvmap_list.insert(0, ("_empty_for_delete", "", ""))  # 空も設定できるように
+    # UVマップの検出
+    uv_name_all_list = [uv.name for mesh in bpy.data.meshes for uv in mesh.uv_layers]
+    # ユニークにしておく
+    uv_name_unique_list = sorted(set(uv_name_all_list))  # ソートもしておく
+    uvmap_list = [(uv_name, uv_name, "") for uv_name in uv_name_unique_list]
     return uvmap_list
 
 
