@@ -42,6 +42,10 @@ class SELECT_UV_OBJECTS_PT_rename(bpy.types.Operator):
     def execute(self, context):
         target_uvmap = context.scene.uvmap_list.uvmap
 
+        # 空文字は設定しない
+        if context.scene.uvmap_rename.strip() == "":
+            return {'FINISHED'}
+
         # 選択されているUVMapと同じ名前のUVMapをRenameする
         for obj in bpy.data.objects:
             if obj.type != "MESH":
@@ -55,7 +59,10 @@ class SELECT_UV_OBJECTS_PT_rename(bpy.types.Operator):
         # 選択対象を変えないように変更後の名前で設定
         context.scene.uvmap_list.uvmap = context.scene.uvmap_rename
 
-        return{'FINISHED'}
+        # 誤操作防止用に変換したら消しておく
+        context.scene.uvmap_rename = ""
+
+        return {'FINISHED'}
 
 
 # 更新関数
