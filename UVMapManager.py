@@ -1,5 +1,16 @@
 import bpy
 
+# 同じ名前のUVMapを持つオブジェクトを選択する
+# =================================================================================================
+class SELECT_UV_OBJECTS_PT_select(bpy.types.Operator):
+    bl_idname = "select_uv_objects.select"
+    bl_label = "Select Objects with the same UVMap"
+
+    # execute
+    def execute(self, context):
+        scene = context.scene
+        return{'FINISHED'}
+
 
 # 更新関数
 # =================================================================================================

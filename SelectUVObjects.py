@@ -1,6 +1,6 @@
 import bpy
 
-from . import UvMapManager
+from . import UVMapManager
 
 # Main UI
 # ===========================================================================================
@@ -27,5 +27,5 @@ class SELECT_UV_OBJECTS_PT_ui(bpy.types.Panel):
 
 # =================================================================================================
 def register():
-    bpy.types.Scene.uvmap_name = bpy.props.PointerProperty(type=UvMapManager.UVMapManagerProperty)
+    bpy.types.Scene.uvmap_name = bpy.props.PointerProperty(type=UVMapManager.UVMapManagerProperty)
 
