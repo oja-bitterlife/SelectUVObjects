@@ -26,8 +26,11 @@ class SELECT_UV_OBJECTS_PT_select(bpy.types.Operator):
                 if has_uv:
                     break
 
-            # 選択
-            obj.select_set(has_uv)
+            # 選択(非表示物は例外で弾かれる)
+            try:
+                obj.select_set(has_uv)
+            except:
+                print("cannot selected:", obj.name)
 
         return{'FINISHED'}
 
