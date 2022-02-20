@@ -36,7 +36,7 @@ class SELECT_UV_OBJECTS_PT_select(bpy.types.Operator):
 # =================================================================================================
 class SELECT_UV_OBJECTS_PT_rename(bpy.types.Operator):
     bl_idname = "select_uv_objects.rename"
-    bl_label = "Rename"
+    bl_label = "Rename Selected"
 
     # execute
     def execute(self, context):
@@ -47,7 +47,7 @@ class SELECT_UV_OBJECTS_PT_rename(bpy.types.Operator):
             return {'FINISHED'}
 
         # 選択されているUVMapと同じ名前のUVMapをRenameする
-        for obj in bpy.data.objects:
+        for obj in bpy.context.selected_objects:
             if obj.type != "MESH":
                 continue
 
